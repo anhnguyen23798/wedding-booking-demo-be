@@ -6,6 +6,7 @@ const connectDB = require('./config/db');
 const { notFound, errorHandler } = require('./middlewares/errorHandler');
 const bookingRoutes = require('./routes/bookingRoutes');
 const Stripe = require('stripe');
+const pkg = require('../package.json');
 
 const app = express();
 connectDB();
@@ -26,6 +27,14 @@ app.use(express.json());
 
 // Routes
 app.use('/api/bookings', bookingRoutes);
+
+app.get('/api/version', (req, res) => {
+  res.json({
+    version: pkg.version,
+    name: pkg.name,
+    env: process.env.NODE_ENV || 'development'
+  });
+});
 
 // Error handlers
 app.use(notFound);
