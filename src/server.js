@@ -14,13 +14,8 @@ connectDB();
 app.use('/contracts', express.static(path.join(__dirname, '..', 'storage', 'contracts')));
 
 // CORS
-const allowed = (process.env.ALLOWED_ORIGINS || '').split(',').filter(Boolean);
 app.use(cors({
-  origin: function(origin, cb) {
-    if (!origin) return cb(null, true);
-    if (allowed.length === 0 || allowed.includes(origin)) return cb(null, true);
-    cb(new Error('Not allowed by CORS'));
-  }
+  origin: '*', // Cho phép tất cả
 }));
 
 // Stripe webhook must use raw body - MUST BE BEFORE express.json()
